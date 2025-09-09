@@ -30,6 +30,26 @@
 </head>
 <body class="min-h-screen text-white p-4 sm:p-6 lg:p-8">
 
+    <script>
+        (function() {
+            const sessionData = localStorage.getItem('loginSession');
+            if (!sessionData) {
+                window.location.href = './login.html';
+                return;
+            }
+            try {
+                const session = JSON.parse(sessionData);
+                const now = new Date().getTime();
+                if (!session.isLoggedIn || now >= session.expiresAt) {
+                    localStorage.removeItem('loginSession');
+                    window.location.href = './login.html?expired=true';
+                }
+            } catch (e) {
+                localStorage.removeItem('loginSession');
+                window.location.href = './login.html';
+            }
+        })();
+    </script>
     <div class="container mx-auto">
         <header class="text-center mb-10">
             <h1 class="text-5xl md:text-7xl font-bold text-gradient drop-shadow-lg">¡Mercado de Brainrots!</h1>
@@ -38,8 +58,7 @@
 
         <main>
             <div id="brainrot-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <!-- Las tarjetas de Brainrot se insertarán aquí -->
-            </div>
+                </div>
         </main>
         
         <footer class="text-center mt-12 text-gray-300">
@@ -48,6 +67,7 @@
     </div>
 
     <script>
+        // Tu lista completa de Brainrots
         const brainrots = [
             { name: 'Coco Elefanto', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-115928.jpg' },
             { name: 'Girafa Celestre', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-120222.jpg' },
@@ -128,7 +148,9 @@
             `;
             
             card.querySelector('.buy-btn').addEventListener('click', () => {
+                // Guarda el item seleccionado en el almacenamiento local
                 localStorage.setItem('selectedBrainrot', JSON.stringify(item));
+                // Redirige a la página del carrito
                 window.location.href = 'carrito.html';
             });
 
@@ -137,4 +159,3 @@
     </script>
 </body>
 </html>
-

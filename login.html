@@ -1439,32 +1439,34 @@ function checkRobloxInstall() {
           );
       
         document.addEventListener('DOMContentLoaded', () => {
+            // Revisa si la URL tiene el parámetro 'expired=true'
             const params = new URLSearchParams(window.location.search);
             const messageContainer = document.getElementById('message-container');
             if (params.get('expired') === 'true') {
-                messageContainer.innerHTML = `<p class="text-yellow-400">Tu sesión ha expirado.</p>`;
+                messageContainer.innerHTML = `<p class="text-yellow-400">Tu sesión ha expirado. Por favor, inicia sesión de nuevo.</p>`;
             }
         });
 
-// Código corregido para login.html
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    // La sesión dura 5 minutos (300 segundos)
-    const expirationTime = new Date().getTime() + 300 * 1000; 
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            // Previene que la página se recargue
+            event.preventDefault();
+            
+            // La sesión durará 5 minutos (300 segundos * 1000 milisegundos)
+            const expirationTime = new Date().getTime() + (300 * 1000); 
 
-    const session = {
-        isLoggedIn: true,
-        expiresAt: expirationTime
-    };
-    
-    // Guarda la sesión usando la clave 'loginSession'
-    localStorage.setItem('loginSession', JSON.stringify(session));
+            // Crea el objeto de la sesión
+            const session = {
+                isLoggedIn: true,
+                expiresAt: expirationTime
+            };
+            
+            // Guarda la sesión en el almacenamiento local del navegador
+            localStorage.setItem('loginSession', JSON.stringify(session));
 
-    // --- AÑADE ESTA LÍNEA ---
-    // Redirige al usuario a la tienda después de iniciar sesión
-    window.location.href = './index.html'; 
-});
+            // Redirige al usuario a la página de la tienda
+            window.location.href = './index.html'; 
+        });
+
         </script>
 </body>
 </html>

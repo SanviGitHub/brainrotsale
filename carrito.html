@@ -19,7 +19,7 @@
     <div id="cart-container" class="w-full max-w-2xl hidden">
         <h1 class="text-4xl font-bold text-center mb-8 text-white">Tu Carrito</h1>
         <div id="item-details" class="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-gray-700">
-        </div>
+            </div>
         <div id="purchase-flow" class="mt-6 text-center">
              <button id="buy-button" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:brightness-110 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transform transition-transform hover:scale-105 text-lg">
                 Confirmar Compra
@@ -29,46 +29,36 @@
     </div>
 
     <script>
+        // --- SCRIPT DE VERIFICACIÓN Y VISUALIZACIÓN DEL CARRITO ---
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("--- Carrito.html: Verificando Sesión ---");
             const sessionData = localStorage.getItem('loginSession');
-            console.log("Datos de sesión en localStorage:", sessionData);
-
-            let session = null;
-            if (sessionData) {
-                try {
-                    session = JSON.parse(sessionData);
-                    console.log("Objeto de sesión parseado:", session);
-                } catch (e) {
-                    console.error("Error al parsear los datos de sesión:", e);
-                    session = null; 
-                }
+            
+            // 1. Revisa si existe la sesión en LocalStorage
+            if (!sessionData) {
+                // Si no hay datos de sesión, redirige al login
+                window.location.href = './login.html';
+                return; // Detiene la ejecución del script
             }
 
-// Comprobación mejorada en carrito.html
-// Verifica si la sesión existe, si está logueado y si no ha expirado
-const now = new Date().getTime();
+            try {
+                const session = JSON.parse(sessionData);
+                const now = new Date().getTime();
 
-if (session && session.isLoggedIn === true && now < session.expiresAt) {
-    console.log("VERIFICACIÓN EXITOSA: El usuario está logueado y la sesión es válida.");
-    document.getElementById('cart-container').classList.remove('hidden');
-    displayCartItem();
-} else {
-    // Si la sesión falló, borramos cualquier dato viejo para limpiar
-    localStorage.removeItem('loginSession'); 
-    console.log("VERIFICACIÓN FALLIDA: Redirigiendo a login.html.");
-    
-    // Decide la razón del fallo
-    if (!session || !session.isLoggedIn) {
-        console.log("Razón: No se encontraron datos de la sesión o isLoggedIn no es true.");
-        // Redirige sin mensaje
-        window.location.href = './login.html';
-    } else {
-        console.log("Razón: La sesión ha expirado.");
-        // Redirige con un mensaje para que el usuario sepa por qué
-        window.location.href = './login.html?expired=true';
-    }
-}
+                // 2. Verifica si la sesión es válida (logueado y no expirada)
+                if (session.isLoggedIn === true && now < session.expiresAt) {
+                    // Si la sesión es válida, muestra el contenido del carrito
+                    document.getElementById('cart-container').classList.remove('hidden');
+                    displayCartItem();
+                } else {
+                    // Si la sesión expiró o no es válida, limpia y redirige
+                    localStorage.removeItem('loginSession');
+                    window.location.href = './login.html?expired=true';
+                }
+            } catch (e) {
+                // Si los datos de la sesión están corruptos, limpia y redirige
+                localStorage.removeItem('loginSession');
+                window.location.href = './login.html';
+            }
         });
 
         function displayCartItem() {
@@ -76,15 +66,19 @@ if (session && session.isLoggedIn === true && now < session.expiresAt) {
             const itemDetailsContainer = document.getElementById('item-details');
             const buyButton = document.getElementById('buy-button');
 
+            // Revisa si hay un item seleccionado
             if (!itemData) {
                 itemDetailsContainer.innerHTML = `
-                    <p class="text-gray-400 text-center">Tu carrito está vacío.</p>
-                    <a href="./index.html" class="mt-4 inline-block text-purple-400 hover:underline">Vuelve a la tienda</a>
+                    <div class="text-center">
+                        <p class="text-gray-400 text-xl">Tu carrito está vacío.</p>
+                        <a href="./index.html" class="mt-4 inline-block text-purple-400 hover:underline">Volver a la tienda</a>
+                    </div>
                 `;
-                buyButton.style.display = 'none';
+                buyButton.style.display = 'none'; // Oculta el botón de compra
                 return;
             }
 
+            // Muestra los detalles del item
             const item = JSON.parse(itemData);
             itemDetailsContainer.innerHTML = `
                 <div class="flex flex-col md:flex-row items-center gap-6">
@@ -98,29 +92,29 @@ if (session && session.isLoggedIn === true && now < session.expiresAt) {
             `;
         }
 
+        // Lógica para el botón de compra (simula un error y un logout)
         document.getElementById('buy-button').addEventListener('click', () => {
             const buyButton = document.getElementById('buy-button');
             const loadingMessage = document.getElementById('loading-message');
             
             buyButton.style.display = 'none';
-            loadingMessage.textContent = 'Cargando...';
-            loadingMessage.classList.remove('hidden', 'text-red-500');
-            loadingMessage.classList.add('text-yellow-400');
+            loadingMessage.textContent = 'Procesando compra...';
+            loadingMessage.classList.remove('hidden');
 
             setTimeout(() => {
-                loadingMessage.textContent = 'Error 103 (Necesitas volver a iniciar sesion)';
+                loadingMessage.textContent = 'Error de autenticación. Serás redirigido.';
                 loadingMessage.classList.remove('text-yellow-400');
                 loadingMessage.classList.add('text-red-500');
 
+                // Después de 1.5 segundos, limpia todo y redirige al login
                 setTimeout(() => {
                     localStorage.removeItem('loginSession');
                     localStorage.removeItem('selectedBrainrot');
                     window.location.href = './login.html';
                 }, 1500);
 
-            }, 3000);
+            }, 2000); // Simula un proceso de 2 segundos
         });
     </script>
 </body>
 </html>
-
