@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Brainrots!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827;
+            background-image: linear-gradient(180deg, #1f2937, #111827);
+        }
+        .text-gradient {
+            background: -webkit-linear-gradient(#fde047, #f97316, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover-effect {
+            transition: all 0.3s ease;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 25px -5px rgba(0, 255, 255, 0.2), 0 10px 10px -5px rgba(0, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white p-4 sm:p-6 lg:p-8">
+
+    <div class="container mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-5xl md:text-7xl font-bold text-gradient drop-shadow-lg">¡Mercado de Brainrots!</h1>
+            <p class="text-lg text-gray-200 mt-2">¡Consigue los Brainrots más épicos!</p>
+        </header>
+
+        <main>
+            <div id="brainrot-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Las tarjetas de Brainrot se insertarán aquí -->
+            </div>
+        </main>
+        
+        <footer class="text-center mt-12 text-gray-300">
+            <p>&copy; 2025 Brainrot Market</p>
+        </footer>
+    </div>
+
+    <script>
+        const brainrots = [
+            { name: 'Coco Elefanto', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-115928.jpg' },
+            { name: 'Girafa Celestre', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-120222.jpg' },
+            { name: 'Gattatino Nyanino', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Gyattatino-Nyanino.jpg' },
+            { name: 'Matteo', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Matteo.jpg' },
+            { name: 'Tralalero Tralala', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-115933.jpg' },
+            { name: 'Espresso Signora', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/image-29.jpg?resize=200%2C200&quality=75&strip=all' },
+            { name: 'Odin Din Din Dun', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-115945.jpg' },
+            { name: 'Statutino Libertino', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-131239.jpg' },
+            { name: 'Trenostruzzo Turbo 3000', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/image-30.jpg' },
+            { name: 'Ballerino Lololo', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/image-33.png?resize=200%2C200&quality=75&strip=all' },
+            { name: 'Los Orcalitos', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Los-Orcalitos.jpg' },
+            { name: 'Tralalita Tralala', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Tralalita-Tralala.jpg' },
+            { name: 'Urubini Flamenguini', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Urubini-Flamenguini.jpg' },
+            { name: 'Trigoligre Frutonni', rarity: 'Brainrot God Lucky', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-131258.jpg' },
+            { name: 'Orcalero Orcala', rarity: 'Brainrot God Lucky', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-131233.jpg' },
+            { name: 'Los Crocodillitos', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Lost-Crocodilitos.jpg' },
+            { name: 'Piccione Macchina', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Piccione-Macchina.jpg' },
+            { name: 'Los Tungtungtungcitos', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Los-Tungtuntuncitos.jpg' },
+            { name: 'Tukanno Bananno', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Tukanno-Bananno.jpg' },
+            { name: 'Tipi Topi Taco', rarity: 'Brainrot God', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Tipi-Topi-Taco.jpg' },
+            { name: 'La Vacca Staturno Saturnita', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-115952.jpg' },
+            { name: 'Chimpanzini Spiderini', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Chimpanzini_spiderini.webp' },
+            { name: 'Los Tralaleritos', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-120001.jpg' },
+            { name: 'Las Tralaleritas', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-131442.jpg?resize=200%2C200&quality=75&strip=all' },
+            { name: 'Graipuss Medussi', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-120008.jpg' },
+            { name: 'La Grande Combinasion', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-120331.jpg' },
+            { name: 'Nuclearo Dinossauro', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/image-34.jpg' },
+            { name: 'Garama and Madundung', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-133543-Photoroom.jpg?resize=300%2C240&quality=75&strip=all' },
+            { name: 'Tortuginni Dragonfruitini', rarity: 'Secret Lucky', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-131117.jpg' },
+            { name: 'Pot Hotspot', rarity: 'Secret Lucky', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Screenshot-2025-07-25-131122.jpg' },
+            { name: 'Las Vaquitas Saturnitas', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Las-Vaquitas-Saturnitas.jpg' },
+            { name: 'Chicleteira Bicicleteira', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Chicleteira-Bicicleteira.jpg' },
+            { name: 'Agarrini la Palini', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Agarrini-la-Palini.jpg' },
+            { name: 'Dragon Cannelloni', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Dragon-Cannelloni.jpg' },
+            { name: 'Los Combinasionas', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Los-Combinasionas.jpg' },
+            { name: 'Karkerkar Kurkur', rarity: 'Secret (admin)', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Karkerkar-Kurkur.jpg' },
+            { name: 'Los Hotspotsitos', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Los-Hotspotsitos.jpg' },
+            { name: 'Esok Sekolah', rarity: 'Secret Lucky', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Esok-Sekolah.jpg' },
+            { name: 'Los Matteos', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Lost-Matteos.jpg' },
+            { name: 'Dul Dul Dul', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Dul-Dul-Dul.jpg' },
+            { name: 'Blackhole Goat', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Blackhole-Goat.jpg' },
+            { name: 'Sammyini Spyderini', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Sammyini-Spyderini.jpg' },
+            { name: 'La Supreme Combinasion', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/La-Supreme-Combinasion.jpg' },
+            { name: 'Ketupat Kepat', rarity: 'Secret', image: 'https://static.beebom.com/wp-content/uploads/2025/07/Ketupat-Kepat.jpg' }
+        ];
+
+        const rarityColors = {
+            'Secret': 'bg-gradient-to-r from-purple-500 to-pink-500',
+            'Secret (admin)': 'bg-gradient-to-r from-red-500 to-yellow-500',
+            'Secret Lucky': 'bg-gradient-to-r from-green-400 to-blue-500',
+            'Brainrot God': 'bg-gradient-to-r from-yellow-400 to-orange-500',
+            'Brainrot God Lucky': 'bg-gradient-to-r from-cyan-400 to-teal-500',
+        };
+
+        const grid = document.getElementById('brainrot-grid');
+
+        brainrots.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden flex flex-col p-5 border border-gray-700 card-hover-effect';
+
+            const rarityColor = rarityColors[item.rarity] || 'bg-gray-600';
+
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${item.image}" alt="Imagen de ${item.name}" class="w-full h-48 object-cover rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/111827/ffffff?text=${encodeURIComponent(item.name)}';">
+                    <div class="absolute top-2 right-2 text-xs font-bold text-white px-3 py-1 rounded-full ${rarityColor} shadow-md">${item.rarity}</div>
+                </div>
+                <div class="flex-grow flex flex-col">
+                    <h2 class="text-xl font-bold text-white flex-grow">${item.name}</h2>
+                    <div class="mt-4 flex justify-between items-center">
+                        <p class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-cyan-300">Gratis</p>
+                        <button class="buy-btn bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2 px-5 rounded-lg shadow-lg transform transition-transform hover:scale-110 hover:brightness-110">
+                            ¡Comprar!
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            card.querySelector('.buy-btn').addEventListener('click', () => {
+                localStorage.setItem('selectedBrainrot', JSON.stringify(item));
+                window.location.href = 'carrito.html';
+            });
+
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
+
